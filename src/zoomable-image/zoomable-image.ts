@@ -64,7 +64,8 @@ export class ZoomableImage implements OnInit, OnDestroy {
 
   public ngOnInit() {
     // Get the scrollable element
-    this.scrollableElement = this.ionScrollContainer['_elementRef'].nativeElement.querySelector('.scroll-content');
+    this.scrollableElement = document.getElementsByClassName(".scroll-content");
+    //this.scrollableElement = this.ionScrollContainer['_elementRef'].nativeElement.querySelector('.scroll-content');
 
     // Attach events
     this.attachEvents();
@@ -79,7 +80,10 @@ export class ZoomableImage implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy() {
-    this.scrollableElement.removeEventListener('scroll', this.scrollListener);
+    //this.scrollableElement.removeEventListener('scroll', this.scrollListener);
+    document.removeEventListener('scroll', this.scrollableElement , (event) => {
+      this.scrollEvent.bind(this);
+    });
   }
 
   /**
@@ -97,7 +101,11 @@ export class ZoomableImage implements OnInit, OnDestroy {
 
     // Scroll event
     this.scrollListener = this.scrollEvent.bind(this);
-    this.scrollableElement.addEventListener('scroll', this.scrollListener);
+    
+    document.addEventListener('scroll', this.scrollableElement , (event) => {
+      this.scrollEvent.bind(this);
+    });
+    //this.scrollableElement.addEventListener('scroll', this.scrollListener);
   }
 
   /**
